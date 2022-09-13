@@ -29,6 +29,23 @@ function App() {
         setWeb3auth(web3auth)
 
         await web3auth.initModal()
+        // To hide external wallet options
+        // await web3auth.initModal({
+        //   modalConfig: {
+        //     'torus-evm': {
+        //       label: 'Torus Wallet',
+        //       showOnModal: false,
+        //     },
+        //     metamask: {
+        //       label: 'Metamask',
+        //       showOnModal: false,
+        //     },
+        //     'wallet-connect-v1': {
+        //       label: 'Wallet Connect',
+        //       showOnModal: false,
+        //     },
+        //   },
+        // })
         if (web3auth.provider) {
           setProvider(web3auth.provider)
         }
@@ -42,7 +59,7 @@ function App() {
 
   const login = async () => {
     if (!web3auth) {
-      console.log('web3auth not initialized yet')
+      uiConsole('web3auth not initialized yet')
       return
     }
     const web3authProvider = await web3auth.connect()
@@ -51,16 +68,34 @@ function App() {
 
   const getUserInfo = async () => {
     if (!web3auth) {
-      console.log('web3auth not initialized yet')
+      uiConsole('web3auth not initialized yet')
       return
     }
     const user = await web3auth.getUserInfo()
-    console.log(user)
+    uiConsole(user)
+  }
+
+  const authenticateUser = async () => {
+    if (!web3auth) {
+      uiConsole('web3auth not initialized yet')
+      return
+    }
+    const idToken = await web3auth.authenticateUser()
+    uiConsole(idToken)
+  }
+
+  const parseToken = async () => {
+    const idToken = await web3auth?.authenticateUser()
+    console.log(idToken?.idToken)
+    const base64Url = idToken?.idToken.split('.')[1]
+    const base64 = base64Url?.replace('-', '+').replace('_', '/')
+    const result = JSON.parse(window.atob(base64 || ''))
+    uiConsole(result)
   }
 
   const logout = async () => {
     if (!web3auth) {
-      console.log('web3auth not initialized yet')
+      uiConsole('web3auth not initialized yet')
       return
     }
     await web3auth.logout()
@@ -69,89 +104,124 @@ function App() {
 
   const getChainId = async () => {
     if (!provider) {
-      console.log('provider not initialized yet')
+      uiConsole('provider not initialized yet')
       return
     }
     const rpc = new RPC(provider)
     const chainId = await rpc.getChainId()
-    console.log(chainId)
+    uiConsole(chainId)
   }
   const getAccounts = async () => {
     if (!provider) {
-      console.log('provider not initialized yet')
+      uiConsole('provider not initialized yet')
       return
     }
     const rpc = new RPC(provider)
     const address = await rpc.getAccounts()
-    console.log(address)
+    uiConsole(address)
   }
 
   const getBalance = async () => {
     if (!provider) {
-      console.log('provider not initialized yet')
+      uiConsole('provider not initialized yet')
       return
     }
     const rpc = new RPC(provider)
     const balance = await rpc.getBalance()
-    console.log(balance)
+    uiConsole(balance)
   }
 
   const sendTransaction = async () => {
     if (!provider) {
-      console.log('provider not initialized yet')
+      uiConsole('provider not initialized yet')
       return
     }
     const rpc = new RPC(provider)
     const receipt = await rpc.sendTransaction()
-    console.log(receipt)
+    uiConsole(receipt)
   }
 
   const signMessage = async () => {
     if (!provider) {
-      console.log('provider not initialized yet')
+      uiConsole('provider not initialized yet')
       return
     }
     const rpc = new RPC(provider)
     const signedMessage = await rpc.signMessage()
-    console.log(signedMessage)
+    uiConsole(signedMessage)
   }
 
   const getPrivateKey = async () => {
     if (!provider) {
-      console.log('provider not initialized yet')
+      uiConsole('provider not initialized yet')
       return
     }
     const rpc = new RPC(provider)
     const privateKey = await rpc.getPrivateKey()
-    console.log(privateKey)
+    uiConsole(privateKey)
   }
+
+  function uiConsole(...args: any[]): void {
+    const el = document.querySelector('#console>p')
+    if (el) {
+      el.innerHTML = JSON.stringify(args || {}, null, 2)
+    }
+  }
+
   const loggedInView = (
     <>
-      <button onClick={getUserInfo} className="card">
-        Get User Info
-      </button>
-      <button onClick={getChainId} className="card">
-        Get Chain ID
-      </button>
-      <button onClick={getAccounts} className="card">
-        Get Accounts
-      </button>
-      <button onClick={getBalance} className="card">
-        Get Balance
-      </button>
-      <button onClick={sendTransaction} className="card">
-        Send Transaction
-      </button>
-      <button onClick={signMessage} className="card">
-        Sign Message
-      </button>
-      <button onClick={getPrivateKey} className="card">
-        Get Private Key
-      </button>
-      <button onClick={logout} className="card">
-        Log Out
-      </button>
-
+      <div className="flex-container">
+        <div>
+          <button onClick={getUserInfo} className="card">
+            Get User Info
+          </button>
+        </div>
+        <div>
+          <button onClick={authenticateUser} className="card">
+            Get idToken
+          </button>
+        </div>
+        <div>
+          <button onClick={parseToken} className="card">
+            Parse idToken
+          </button>
+        </div>
+        <div>
+          <button onClick={getChainId} className="card">
+            Get Chain ID
+          </button>
+        </div>
+        <div>
+          <button onClick={getAccounts} className="card">
+            Get Accounts
+          </button>
+        </div>
+        <div>
+          <button onClick={getBalance} className="card">
+            Get Balance
+          </button>
+        </div>
+        <div>
+          <button onClick={sendTransaction} className="card">
+            Send Transaction
+          </button>
+        </div>
+        <div>
+          <button onClick={signMessage} className="card">
+            Sign Message
+          </button>
+        </div>
+        <div>
+          <button onClick={getPrivateKey} className="card">
+            Get Private Key
+          </button>
+        </div>
+        <div>
+          <button onClick={logout} className="card">
+            Log Out
+          </button>
+        </div>
+      </div>
       <div id="console" style={{whiteSpace: 'pre-line'}}>
         <p style={{whiteSpace: 'pre-line'}}></p>
       </div>
@@ -168,7 +238,7 @@ function App() {
     <div className="container">
       <h1 className="title">
         <a target="_blank" href="http://web3auth.io/" rel="noreferrer">
-          Web3Auth
+          Web3Auth{' '}
         </a>
         & ReactJS Example
       </h1>
