@@ -1,13 +1,10 @@
-# Web3Auth Example from Guides and Integration Builder
+# Web3Auth x React Demo Application
 
-[Web3Auth](https://web3auth.io) is a plugable auth infrastructure for Web3
-wallets and applications. It streamlines the onboarding of both mainstream and
-crypto native users under a minute by providing experiences that they're most
-comfortable with.
+## Questions
 
-With support for all social logins, web & mobile native platforms, wallets and
-other key management methods, Web3Auth results in a standard cryptographic key
-provider specific to the user and application.
+Ask us on our
+[Github Discussion Board](https://github.com/orgs/Web3Auth/discussions) or reach
+out to our [Discord](https://discord.gg/web3auth).
 
 ## Important Links
 
@@ -18,93 +15,52 @@ provider specific to the user and application.
 - [Pricing](https://web3auth.io/pricing.html)
 - [Github Discussion Board](https://github.com/orgs/Web3Auth/discussions)
 
-## Examples
+## Available Scripts
 
-## Web3Auth Plug n Play UI
+In the project directory, you can run:
 
-`@web3auth/web3auth`
+### `npm start`
 
-### Blockchain x Framework
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Ethereum - EVM Based
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-| Blockchain | Lang Framework | Directory                                                                         |
-| :--------- | :------------- | :-------------------------------------------------------------------------------- |
-| `EVM`      | `REACT`        | [React-EVM-Web3Auth-Example](/web-modal-sdk/evm/react-evm-web3auth-example)       |
-| `EVM`      | `NEXTJS`       | [NextJS-EVM-Web3Auth-Example](/web-modal-sdk/evm/nextjs-evm-web3auth-example)     |
-| `EVM`      | `Vue`          | [Vue-EVM-Web3Auth-Example](/web-modal-sdk/evm/vue-evm-web3auth-example)           |
-| `EVM`      | `Angular`      | [Angular-EVM-Web3Auth-Example](/web-modal-sdk/evm/angular-evm-web3auth-example)   |
-| `EVM`      | `CommonJS`     | [CommonJS-EVM-Web3Auth-Example](/web-modal-sdk/evm/commonjs-evm-web3auth-example) |
+### `npm test`
 
-### StarkEx
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
+for more information.
 
-| Blockchain | Lang Framework | Directory                                                                                   |
-| :--------- | :------------- | :------------------------------------------------------------------------------------------ |
-| `StarkEx`  | `REACT`        | [React-StarkEx-Web3Auth-Example](/web-modal-sdk/starkex/react-starkex-web3auth-example)     |
-| `StarkEx`  | `NEXTJS`       | [NextJS-StarkEx-Web3Auth-Example](/web-modal-sdk/starkex/nextjs-starkex-web3auth-example)   |
-| `StarkEx`  | `Vue`          | [Vue-StarkEx-Web3Auth-Example](/web-modal-sdk/starkex/vue-starkex-web3auth-example)         |
-| `StarkEx`  | `Angular`      | [Angular-StarkEx-Web3Auth-Example](/web-modal-sdk/starkex/angular-starkex-web3auth-example) |
+### `npm run build`
 
-### StarkNet
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best
+performance.
 
-| Blockchain | Lang Framework | Directory                                                                                      |
-| :--------- | :------------- | :--------------------------------------------------------------------------------------------- |
-| `StarkNet` | `REACT`        | [React-StarkNet-Web3Auth-Example](/web-modal-sdk/starknet/react-starknet-web3auth-example)     |
-| `StarkNet` | `NEXTJS`       | [NextJS-StarkNet-Web3Auth-Example](/web-modal-sdk/starknet/nextjs-starknet-web3auth-example)   |
-| `StarkNet` | `Vue`          | [Vue-StarkNet-Web3Auth-Example](/web-modal-sdk/starknet/vue-starknet-web3auth-example)         |
-| `StarkNet` | `Angular`      | [Angular-StarkNet-Web3Auth-Example](/web-modal-sdk/starknet/angular-starknet-web3auth-example) |
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### Tezos
+See the section about
+[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
+more information.
 
-| Blockchain | Lang Framework | Directory                                                                             |
-| :--------- | :------------- | :------------------------------------------------------------------------------------ |
-| `Tezos`    | `REACT`        | [React-Tezos-Web3Auth-Example](/web-modal-sdk/tezos/react-tezos-web3auth-example)     |
-| `Tezos`    | `NEXTJS`       | [NextJS-Tezos-Web3Auth-Example](/web-modal-sdk/tezos/nextjs-tezos-web3auth-example)   |
-| `Tezos`    | `Vue`          | [Vue-Tezos-Web3Auth-Example](/web-modal-sdk/tezos/vue-tezos-web3auth-example)         |
-| `Tezos`    | `Angular`      | [Angular-Tezos-Web3Auth-Example](/web-modal-sdk/tezos/angular-tezos-web3auth-example) |
+### `npm run eject`
 
-## Web3Auth Plug n Play Core
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-`@web3auth/core`
+If you aren’t satisfied with the build tool and configuration choices, you can
+`eject` at any time. This command will remove the single build dependency from
+your project.
 
-### Custom Authentication
+Instead, it will copy all the configuration files and the transitive
+dependencies (webpack, Babel, ESLint, etc) right into your project so you have
+full control over them. All of the commands except `eject` will still work, but
+they will point to the copied scripts so you can tweak them. At this point
+you’re on your own.
 
-| Auth Provider | Lang Framework | Directory                                                                                               |
-| :------------ | :------------- | :------------------------------------------------------------------------------------------------------ |
-| `Auth0`       | `REACT`        | [Auth0-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/auth0-react-core-example)       |
-| `Google`      | `REACT`        | [Google-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/google-react-core-example)     |
-| `Firebase`    | `REACT`        | [Firebase-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/firebase-react-core-example) |
-| `Discord`     | `REACT`        | [Discord-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/discord-react-core-example)   |
-| `Facebook`    | `REACT`        | [Facebook-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/facebook-react-core-example) |
-| `Twitch`      | `REACT`        | [Twitch-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/twitch-react-core-example)     |
-| `AWS Cognito` | `REACT`        | [Cognito-React-Web3Auth-Core-Example](/web-core-sdk/custom-authentication/cognito-react-core-example)   |
-
-### Server Side Verification
-
-| Via               | Lang Framework | Directory                                                                                                       |
-| :---------------- | :------------- | :-------------------------------------------------------------------------------------------------------------- |
-| `Social - Google` | `NEXTJS`       | [SSV-Via-Social-NextJS-Core-Example](/web-core-sdk/server-side-verification/ssv-via-social-nextjs-core-example) |
-
-## Web3Auth Mobile SDKs
-
-| SDK       | Documentation                                         | Guide                                            | Directory                                                                        |
-| :-------- | :---------------------------------------------------- | :----------------------------------------------- | :------------------------------------------------------------------------------- |
-| `Android` | [Documentation](https://web3auth.io/docs/sdk/android) | [Guide](https://web3auth.io/docs/guides/android) | [Android-General-Example](/android/general-example/)                             |
-| `Android` | [Documentation](https://web3auth.io/docs/sdk/android) | [Guide](https://web3auth.io/docs/guides/android) | [Android-Custom-Authentication-Example](/android/custom-authentication-example/) |
-| `Flutter` | [Documentation](https://web3auth.io/docs/sdk/flutter) | [Guide](https://web3auth.io/docs/guides/flutter) | [Flutter-Example](/flutter)                                                      |
-
-## Web3Auth Gaming SDKs
-
-| SDK     | Documentation                                       | Guide                                          | Directory               |
-| :------ | :-------------------------------------------------- | :--------------------------------------------- | :---------------------- |
-| `Unity` | [Documentation](https://web3auth.io/docs/sdk/unity) | [Guide](https://web3auth.io/docs/guides/unity) | [Unity-Example](/unity) |
-
-## Questions
-
-Ask us on our
-[Github Discussion Board](https://github.com/orgs/Web3Auth/discussions) or reach
-out to our [Discord](https://discord.gg/web3auth).
-
-## License
-
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](/LICENSE)
+You don’t have to ever use `eject`. The curated feature set is suitable for
+small and middle deployments, and you shouldn’t feel obligated to use this
+feature. However we understand that this tool wouldn’t be useful if you couldn’t
+customize it when you are ready for it.
