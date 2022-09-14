@@ -3181,6 +3181,17 @@
     "@web3auth/base-solana-adapter" "^2.1.2"
     "@web3auth/solana-provider" "^2.1.2"
 
+"@web3auth/torus-wallet-connector-plugin@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@web3auth/torus-wallet-connector-plugin/-/torus-wallet-connector-plugin-2.1.2.tgz#c68dd8b553beea8854645f74bb507d3253eea88a"
+  integrity sha512-JwVY7fZlqCpl8kyZCiRin1wMZIpL55meErZFuBmq+I+RtbTRcXMcKpiVv4u0obcc1zQaIT7bak/W/bZqSVA+tQ==
+  dependencies:
+    "@toruslabs/torus-embed" "^1.35.5"
+    "@web3auth/base" "^2.1.2"
+    "@web3auth/base-plugin" "^2.1.2"
+    "@web3auth/core" "^2.1.2"
+    loglevel "^1.8.0"
+
 "@web3auth/ui@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@web3auth/ui/-/ui-2.1.2.tgz#2c0b44b4aa1f97f494c6e9b0b1a101483848c6da"

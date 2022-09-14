@@ -4,6 +4,7 @@ import {CHAIN_NAMESPACES, SafeEventEmitterProvider} from '@web3auth/base'
 import './App.css'
 import RPC from './web3RPC' // for using web3.js
 //import RPC from "./ethersRPC"; // for using ethers.js
+import {TorusWalletConnectorPlugin} from '@web3auth/torus-wallet-connector-plugin'
 
 const clientId =
   'BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo' // get from https://dashboard.web3auth.io
@@ -46,6 +47,20 @@ function App() {
         //     },
         //   },
         // })
+        const torusPlugin = new TorusWalletConnectorPlugin({
+          torusWalletOpts: {},
+          walletInitOptions: {
+            whiteLabel: {
+              theme: {isDark: true, colors: {primary: '#00a8ff'}},
+              logoDark: 'https://web3auth.io/images/w3a-L-Favicon-1.svg',
+              logoLight: 'https://web3auth.io/images/w3a-D-Favicon-1.svg',
+            },
+            useWalletConnect: true,
+            enableLogging: true,
+          },
+        })
+        await web3auth.addPlugin(torusPlugin)
+
         if (web3auth.provider) {
           setProvider(web3auth.provider)
         }
