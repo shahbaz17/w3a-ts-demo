@@ -29,6 +29,7 @@ function App() {
           clientId,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
+            chainId: '0x3',
           },
         })
 
