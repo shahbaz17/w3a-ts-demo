@@ -375,7 +375,7 @@ function App() {
 
       <footer className="footer">
         <a
-          href="https://github.com/Web3Auth/Web3Auth/tree/master/examples/react-app"
+          href="https://github.com/shahbaz17/w3a-ts-demo"
           target="_blank"
           rel="noopener noreferrer"
         >
