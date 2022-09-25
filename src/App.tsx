@@ -8,6 +8,9 @@ import RPC from './web3RPC' // for using web3.js
 import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider'
 import {SolanaPrivateKeyProvider, SolanaWallet} from '@web3auth/solana-provider'
 import Web3 from 'web3'
+//@ts-ignore
+import * as tezosCrypto from '@tezos-core-tools/crypto-utils'
+import {hex2buf} from '@taquito/utils'
 
 const clientId =
   'BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo' // get from https://dashboard.web3auth.io
@@ -136,7 +139,7 @@ function App() {
     const ed25519key = getED25519Key(privateKey).sk.toString('hex')
     console.log(ed25519key)
 
-    // Get user's Polygon's public address
+    // Get user's Solana's public address
     const solanaPrivateKeyProvider = new SolanaPrivateKeyProvider({
       config: {
         chainConfig: {
@@ -157,10 +160,15 @@ function App() {
     )
     const solana_address = await solanaWallet.requestAccounts()
 
+    // Get Tezos's user's address
+    const keyPair = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey))
+    const tezosAccount = keyPair?.pkh
+
     uiConsole(
       'Polygon Address: ' + polygon_address,
       'BNB Address: ' + bnb_address,
       'Solana Address: ' + solana_address[0],
+      'Tezos Address: ' + tezosAccount,
     )
   }
 
