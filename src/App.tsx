@@ -11,6 +11,8 @@ import Web3 from 'web3'
 //@ts-ignore
 import * as tezosCrypto from '@tezos-core-tools/crypto-utils'
 import {hex2buf} from '@taquito/utils'
+import {KeyPair} from 'near-api-js'
+import {base_encode} from 'near-api-js/lib/utils/serialize'
 
 const clientId =
   'BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo' // get from https://dashboard.web3auth.io
@@ -165,11 +167,16 @@ function App() {
     const keyPair = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey))
     const tezosAccount = keyPair?.pkh
 
+    // Get NEAR user's address
+    const keyPairNear = KeyPair.fromString(base_encode(privateKey))
+    const near_address = keyPairNear?.getPublicKey()?.toString().split(':')[1]
+
     uiConsole(
       'Polygon Address: ' + polygon_address,
       'BNB Address: ' + bnb_address,
       'Solana Address: ' + solana_address[0],
       'Tezos Address: ' + tezosAccount,
+      'NEAR Address: ' + near_address,
     )
   }
 
