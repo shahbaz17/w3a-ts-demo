@@ -4,7 +4,10 @@ import {CHAIN_NAMESPACES, SafeEventEmitterProvider} from '@web3auth/base'
 import './App.css'
 import RPC from './web3RPC' // for using web3.js
 //import RPC from "./ethersRPC"; // for using ethers.js
-import {TorusWalletConnectorPlugin} from '@web3auth/torus-wallet-connector-plugin'
+// import {TorusWalletConnectorPlugin} from '@web3auth/torus-wallet-connector-plugin'
+import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider'
+import {SolanaPrivateKeyProvider, SolanaWallet} from '@web3auth/solana-provider'
+import Web3 from 'web3'
 
 const clientId =
   'BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo' // get from https://dashboard.web3auth.io
@@ -18,18 +21,18 @@ function App() {
   useEffect(() => {
     const init = async () => {
       try {
+        // ETH_Ropsten
         const web3auth = new Web3Auth({
           clientId,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: '0x3',
-            rpcTarget: 'https://rpc.ankr.com/eth_ropsten', // This is the public RPC we have added, please pass on your own endpoint while creating an app
           },
         })
 
         setWeb3auth(web3auth)
 
         await web3auth.initModal()
+
         // To hide external wallet options
         // await web3auth.initModal({
         //   modalConfig: {
@@ -47,19 +50,33 @@ function App() {
         //     },
         //   },
         // })
-        const torusPlugin = new TorusWalletConnectorPlugin({
-          torusWalletOpts: {},
-          walletInitOptions: {
-            whiteLabel: {
-              theme: {isDark: true, colors: {primary: '#00a8ff'}},
-              logoDark: 'https://web3auth.io/images/w3a-L-Favicon-1.svg',
-              logoLight: 'https://web3auth.io/images/w3a-D-Favicon-1.svg',
-            },
-            useWalletConnect: true,
-            enableLogging: true,
-          },
-        })
-        await web3auth.addPlugin(torusPlugin)
+
+        // const torusPlugin = new TorusWalletConnectorPlugin({
+        //   torusWalletOpts: {
+        //     buttonPosition: 'bottom-left',
+        //   },
+        //   walletInitOptions: {
+        //     whiteLabel: {
+        //       theme: {isDark: true, colors: {primary: '#00a8ff'}},
+        //       logoDark: 'https://web3auth.io/images/w3a-L-Favicon-1.svg',
+        //       logoLight: 'https://web3auth.io/images/w3a-D-Favicon-1.svg',
+        //     },
+        //     useWalletConnect: true,
+        //     enableLogging: true,
+        //   },
+        // })
+
+        // torusPlugin.initWithProvider(provider_from_wagmi, userInfo)
+
+        // torusPlugin.initiateTopup('moonpay', {
+        //   selectedAddress: 'address',
+        //   selectedCurrency: 'USD',
+        //   fiatValue: 100,
+        //   selectedCryptoCurrency: 'ETH',
+        //   chainNetwork: 'mainnet',
+        // })
+
+        // await web3auth.addPlugin(torusPlugin)
 
         if (web3auth.provider) {
           setProvider(web3auth.provider)
@@ -71,6 +88,81 @@ function App() {
 
     init()
   }, [])
+
+  const getAllAccounts = async () => {
+    if (!provider) {
+      uiConsole('provider not initialized yet')
+      return
+    }
+    const rpc = new RPC(provider)
+    const privateKey = await rpc.getPrivateKey()
+    console.log(privateKey)
+
+    // Get user's Polygon's public address
+    const polygonPrivateKeyProvider = new EthereumPrivateKeyProvider({
+      config: {
+        chainConfig: {
+          chainId: '0x13881',
+          rpcTarget: 'https://rpc.ankr.com/polygon_mumbai',
+          displayName: 'Polygon Mumbai',
+          blockExplorer: 'https://mumbai.polygonscan.com/',
+          ticker: 'MATIC',
+          tickerName: 'MATIC',
+        },
+      },
+    })
+    await polygonPrivateKeyProvider.setupProvider(privateKey)
+    const web3_polygon = new Web3(polygonPrivateKeyProvider.provider as any)
+    const polygon_address = (await web3_polygon.eth.getAccounts())[0]
+
+    // Get user's BNB's public address
+    const bnbPrivateKeyProvider = new EthereumPrivateKeyProvider({
+      config: {
+        chainConfig: {
+          chainId: '0x38',
+          rpcTarget: 'https://rpc.ankr.com/bsc',
+          displayName: 'Binance SmartChain Mainnet',
+          blockExplorer: 'https://bscscan.com/',
+          ticker: 'BNB',
+          tickerName: 'BNB',
+        },
+      },
+    })
+    await bnbPrivateKeyProvider.setupProvider(privateKey)
+    const web3_bnb = new Web3(polygonPrivateKeyProvider.provider as any)
+    const bnb_address = (await web3_bnb.eth.getAccounts())[0]
+
+    const {getED25519Key} = await import('@toruslabs/openlogin-ed25519')
+    const ed25519key = getED25519Key(privateKey).sk.toString('hex')
+    console.log(ed25519key)
+
+    // Get user's Polygon's public address
+    const solanaPrivateKeyProvider = new SolanaPrivateKeyProvider({
+      config: {
+        chainConfig: {
+          chainId: '0x3',
+          rpcTarget: 'https://ssc-dao.genesysgo.net',
+          displayName: 'Solana Mainnet',
+          blockExplorer: 'https://explorer.solana.com/',
+          ticker: 'SOL',
+          tickerName: 'Solana',
+        },
+      },
+    })
+    await solanaPrivateKeyProvider.setupProvider(ed25519key)
+    console.log(solanaPrivateKeyProvider.provider)
+
+    const solanaWallet = new SolanaWallet(
+      solanaPrivateKeyProvider.provider as any,
+    )
+    const solana_address = await solanaWallet.requestAccounts()
+
+    uiConsole(
+      'Polygon Address: ' + polygon_address,
+      'BNB Address: ' + bnb_address,
+      'Solana Address: ' + solana_address[0],
+    )
+  }
 
   const login = async () => {
     if (!web3auth) {
@@ -133,7 +225,7 @@ function App() {
     }
     const rpc = new RPC(provider)
     const address = await rpc.getAccounts()
-    uiConsole(address)
+    uiConsole('ETH Address: ' + address)
   }
 
   const getBalance = async () => {
@@ -209,6 +301,11 @@ function App() {
         <div>
           <button onClick={getAccounts} className="card">
             Get Accounts
+          </button>
+        </div>
+        <div>
+          <button onClick={getAllAccounts} className="card">
+            Get All Accounts
           </button>
         </div>
         <div>
