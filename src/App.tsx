@@ -13,6 +13,10 @@ import * as tezosCrypto from '@tezos-core-tools/crypto-utils'
 import {hex2buf} from '@taquito/utils'
 import {KeyPair} from 'near-api-js'
 import {base_encode} from 'near-api-js/lib/utils/serialize'
+//@ts-ignore
+import starkwareCrypto from '@starkware-industries/starkware-crypto-utils'
+//@ts-ignore
+import {ec as elliptic} from 'elliptic'
 
 const clientId =
   'BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo' // get from https://dashboard.web3auth.io
@@ -164,12 +168,28 @@ function App() {
     const solana_address = await solanaWallet.requestAccounts()
 
     // Get Tezos's user's address
-    const keyPair = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey))
-    const tezosAccount = keyPair?.pkh
+    const keyPairTezos = tezosCrypto.utils.seedToKeyPair(hex2buf(privateKey))
+    const tezosAccount = keyPairTezos?.pkh
 
     // Get NEAR user's address
     const keyPairNear = KeyPair.fromString(base_encode(privateKey))
     const near_address = keyPairNear?.getPublicKey()?.toString().split(':')[1]
+
+    // Get StarkEx user's address
+    const keyPairStarkEx = starkwareCrypto.ec.keyFromPrivate(privateKey, 'hex')
+    const starkex_account = starkwareCrypto.ec.keyFromPublic(
+      keyPairStarkEx.getPublic(true, 'hex'),
+      'hex',
+    )
+    const starkExKey = starkex_account.pub.getX().toString('hex')
+
+    // Get StarkNet user's address
+    const keyPairStarkNet = starkwareCrypto.ec.keyFromPrivate(privateKey, 'hex')
+    const starknet_account = starkwareCrypto.ec.keyFromPublic(
+      keyPairStarkNet.getPublic(true, 'hex'),
+      'hex',
+    )
+    const starkNetKey = starknet_account.pub.getX().toString('hex')
 
     uiConsole(
       'Polygon Address: ' + polygon_address,
@@ -177,6 +197,8 @@ function App() {
       'Solana Address: ' + solana_address[0],
       'Tezos Address: ' + tezosAccount,
       'NEAR Address: ' + near_address,
+      'StarkEx Address: ' + starkExKey,
+      'StarkNet Address: ' + starkNetKey,
     )
   }
 
