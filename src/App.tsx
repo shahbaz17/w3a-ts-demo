@@ -41,9 +41,26 @@ function App() {
           },
         });
 
-        setWeb3auth(web3auth);
+        const torusPlugin = new TorusWalletConnectorPlugin({
+          torusWalletOpts: {
+            buttonPosition: "bottom-left",
+          },
+          walletInitOptions: {
+            whiteLabel: {
+              theme: { isDark: true, colors: { primary: "#00a8ff" } },
+              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+            },
+            useWalletConnect: true,
+            enableLogging: true,
+          },
+        });
+
+        await web3auth.addPlugin(torusPlugin);
 
         await web3auth.initModal();
+
+        setWeb3auth(web3auth);
 
         // To hide external wallet options
         // await web3auth.initModal({
@@ -62,33 +79,6 @@ function App() {
         //     },
         //   },
         // })
-
-        const torusPlugin = new TorusWalletConnectorPlugin({
-          torusWalletOpts: {
-            buttonPosition: "bottom-left",
-          },
-          walletInitOptions: {
-            whiteLabel: {
-              theme: { isDark: true, colors: { primary: "#00a8ff" } },
-              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
-            },
-            useWalletConnect: true,
-            enableLogging: true,
-          },
-        });
-
-        // torusPlugin.initWithProvider(provider_from_wagmi, userInfo)
-
-        // torusPlugin.initiateTopup('moonpay', {
-        //   selectedAddress: 'address',
-        //   selectedCurrency: 'USD',
-        //   fiatValue: 100,
-        //   selectedCryptoCurrency: 'ETH',
-        //   chainNetwork: 'mainnet',
-        // })
-
-        await web3auth.addPlugin(torusPlugin);
 
         if (web3auth.provider) {
           setProvider(web3auth.provider);
