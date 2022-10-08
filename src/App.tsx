@@ -378,8 +378,8 @@ function App() {
   );
 
   const unloggedInView = (
-    <button onClick={login} className="card">
-      Login
+    <button disabled={!web3auth} onClick={login} className="card">
+      {web3auth ? "Login" : "Loading..."}
     </button>
   );
 
@@ -389,7 +389,7 @@ function App() {
         <a target="_blank" href="http://web3auth.io/" rel="noreferrer">
           Web3Auth{" "}
         </a>
-        & ReactJS Example
+        & ReactJS Ethereum Demo
       </h1>
 
       <div className="grid">{provider ? loggedInView : unloggedInView}</div>
