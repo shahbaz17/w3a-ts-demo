@@ -8,6 +8,7 @@ export default class EthereumRpc {
     this.provider = provider;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getChainId(): Promise<any> {
     try {
       const ethersProvider = new ethers.providers.Web3Provider(this.provider);
@@ -19,6 +20,7 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getAccounts(): Promise<any> {
     try {
       const ethersProvider = new ethers.providers.Web3Provider(this.provider);
@@ -52,6 +54,7 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async sendTransaction(): Promise<any> {
     try {
       const ethersProvider = new ethers.providers.Web3Provider(this.provider);
@@ -95,6 +98,7 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getPrivateKey(): Promise<any> {
     try {
       const privateKey = await this.provider.request({

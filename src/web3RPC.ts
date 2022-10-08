@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import type { SafeEventEmitterProvider } from "@web3auth/base";
 import Web3 from "web3";
 
@@ -11,6 +10,7 @@ export default class EthereumRpc {
 
   async getChainId(): Promise<string> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const web3 = new Web3(this.provider as any);
 
       // Get the connected Chain's ID
@@ -22,8 +22,10 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getAccounts(): Promise<any> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const web3 = new Web3(this.provider as any);
 
       // Get user's Ethereum public address
@@ -37,6 +39,7 @@ export default class EthereumRpc {
 
   async getBalance(): Promise<string> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const web3 = new Web3(this.provider as any);
 
       // Get user's Ethereum public address
@@ -53,8 +56,10 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async sendTransaction(): Promise<any> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const web3 = new Web3(this.provider as any);
 
       // Get user's Ethereum public address
@@ -81,6 +86,7 @@ export default class EthereumRpc {
 
   async signMessage() {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const web3 = new Web3(this.provider as any);
 
       // Get user's Ethereum public address
@@ -101,6 +107,7 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getPrivateKey(): Promise<any> {
     try {
       const privateKey = await this.provider.request({
@@ -113,6 +120,7 @@ export default class EthereumRpc {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getGeneralPrivateKey(): Promise<any> {
     try {
       const privateKey = await this.provider.request({

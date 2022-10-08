@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 const webpack = require("webpack");
 
 module.exports = function override(config) {

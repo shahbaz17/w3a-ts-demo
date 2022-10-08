@@ -1,24 +1,20 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-import React, { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable no-console */
+import "./App.css";
 
 // @ts-ignore
-import starkwareCrypto from "@starkware-industries/starkware-crypto-utils";
-// @ts-ignore
+import starboardCrypto from "@starkware-industries/starkware-crypto-utils";
 import { hex2buf } from "@taquito/utils";
 // @ts-ignore
 import * as tezosCrypto from "@tezos-core-tools/crypto-utils";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
-import {
-  SolanaPrivateKeyProvider,
-  SolanaWallet,
-} from "@web3auth/solana-provider";
+import { SolanaPrivateKeyProvider, SolanaWallet } from "@web3auth/solana-provider";
 import { Web3Auth } from "@web3auth/web3auth";
-import "./App.css";
 // import { ec as elliptic } from "elliptic";
 import { KeyPair } from "near-api-js";
 import { base_encode } from "near-api-js/lib/utils/serialize";
+import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 
 import RPC from "./web3RPC"; // for using web3.js
@@ -26,20 +22,17 @@ import RPC from "./web3RPC"; // for using web3.js
 // import RPC from "./ethersRPC"; // for using ethers.js
 // import {TorusWalletConnectorPlugin} from '@web3auth/torus-wallet-connector-plugin'
 
-const clientId =
-  "BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo"; // get from https://dashboard.web3auth.io
+const clientId = "BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo"; // get from https://dashboard.web3auth.io
 
 function App() {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
-    null
-  );
+  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
 
   useEffect(() => {
     const init = async () => {
       try {
         // ETH_Ropsten
-        // eslint-disable-next-line no-shadow
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const web3auth = new Web3Auth({
           clientId,
           chainConfig: {
@@ -109,6 +102,14 @@ function App() {
     init();
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function uiConsole(...args: any[]): void {
+    const el = document.querySelector("#console>p");
+    if (el) {
+      el.innerHTML = JSON.stringify(args || {}, null, 2);
+    }
+  }
+
   const getAllAccounts = async () => {
     if (!provider) {
       uiConsole("provider not initialized yet");
@@ -132,6 +133,7 @@ function App() {
       },
     });
     await polygonPrivateKeyProvider.setupProvider(privateKey);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const web3_polygon = new Web3(polygonPrivateKeyProvider.provider as any);
     const polygon_address = (await web3_polygon.eth.getAccounts())[0];
 
@@ -149,6 +151,7 @@ function App() {
       },
     });
     await bnbPrivateKeyProvider.setupProvider(privateKey);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const web3_bnb = new Web3(polygonPrivateKeyProvider.provider as any);
     const bnb_address = (await web3_bnb.eth.getAccounts())[0];
 
@@ -172,9 +175,8 @@ function App() {
     await solanaPrivateKeyProvider.setupProvider(ed25519key);
     console.log(solanaPrivateKeyProvider.provider);
 
-    const solanaWallet = new SolanaWallet(
-      solanaPrivateKeyProvider.provider as any
-    );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const solanaWallet = new SolanaWallet(solanaPrivateKeyProvider.provider as any);
     const solana_address = await solanaWallet.requestAccounts();
 
     // Get Tezos's user's address
@@ -186,22 +188,13 @@ function App() {
     const near_address = keyPairNear?.getPublicKey()?.toString().split(":")[1];
 
     // Get StarkEx user's address
-    const keyPairStarkEx = starkwareCrypto.ec.keyFromPrivate(privateKey, "hex");
-    const starkex_account = starkwareCrypto.ec.keyFromPublic(
-      keyPairStarkEx.getPublic(true, "hex"),
-      "hex"
-    );
+    const keyPairStarkEx = starboardCrypto.ec.keyFromPrivate(privateKey, "hex");
+    const starkex_account = starboardCrypto.ec.keyFromPublic(keyPairStarkEx.getPublic(true, "hex"), "hex");
     const starkExKey = starkex_account.pub.getX().toString("hex");
 
     // Get StarkNet user's address
-    const keyPairStarkNet = starkwareCrypto.ec.keyFromPrivate(
-      privateKey,
-      "hex"
-    );
-    const starknet_account = starkwareCrypto.ec.keyFromPublic(
-      keyPairStarkNet.getPublic(true, "hex"),
-      "hex"
-    );
+    const keyPairStarkNet = starboardCrypto.ec.keyFromPrivate(privateKey, "hex");
+    const starknet_account = starboardCrypto.ec.keyFromPublic(keyPairStarkNet.getPublic(true, "hex"), "hex");
     const starkNetKey = starknet_account.pub.getX().toString("hex");
 
     uiConsole(
@@ -319,13 +312,6 @@ function App() {
     uiConsole(privateKey);
   };
 
-  function uiConsole(...args: any[]): void {
-    const el = document.querySelector("#console>p");
-    if (el) {
-      el.innerHTML = JSON.stringify(args || {}, null, 2);
-    }
-  }
-
   const loggedInView = (
     <>
       <div className="flex-container">
@@ -409,11 +395,7 @@ function App() {
       <div className="grid">{provider ? loggedInView : unloggedInView}</div>
 
       <footer className="footer">
-        <a
-          href="https://github.com/shahbaz17/w3a-ts-demo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/shahbaz17/w3a-ts-demo" target="_blank" rel="noopener noreferrer">
           Source code
         </a>
       </footer>
