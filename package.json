@@ -71,20 +71,28 @@
     "eslint-plugin-simple-import-sort": "^8.x",
     "eslint-plugin-tsdoc": "^0.x",
     "https-browserify": "^1.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "os-browserify": "^0.3.0",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "url": "^0.11.0",
-    "husky": "^8.0.0"
+    "url": "^0.11.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint:ts": "eslint --ext=.tsx,.ts --fix 'src'",
-    "prepare": "husky install"
+    "lint": "eslint --ext=.tsx,.ts 'src'",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
