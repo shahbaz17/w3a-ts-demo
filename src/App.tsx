@@ -10,6 +10,8 @@ import * as tezosCrypto from "@tezos-core-tools/crypto-utils";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { SolanaPrivateKeyProvider, SolanaWallet } from "@web3auth/solana-provider";
+// import RPC from "./ethersRPC"; // for using ethers.js
+import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
 import { Web3Auth } from "@web3auth/web3auth";
 // import { ec as elliptic } from "elliptic";
 import { KeyPair } from "near-api-js";
@@ -18,9 +20,6 @@ import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 
 import RPC from "./web3RPC"; // for using web3.js
-
-// import RPC from "./ethersRPC"; // for using ethers.js
-// import {TorusWalletConnectorPlugin} from '@web3auth/torus-wallet-connector-plugin'
 
 const clientId = "BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo"; // get from https://dashboard.web3auth.io
 
@@ -64,20 +63,20 @@ function App() {
         //   },
         // })
 
-        // const torusPlugin = new TorusWalletConnectorPlugin({
-        //   torusWalletOpts: {
-        //     buttonPosition: 'bottom-left',
-        //   },
-        //   walletInitOptions: {
-        //     whiteLabel: {
-        //       theme: {isDark: true, colors: {primary: '#00a8ff'}},
-        //       logoDark: 'https://web3auth.io/images/w3a-L-Favicon-1.svg',
-        //       logoLight: 'https://web3auth.io/images/w3a-D-Favicon-1.svg',
-        //     },
-        //     useWalletConnect: true,
-        //     enableLogging: true,
-        //   },
-        // })
+        const torusPlugin = new TorusWalletConnectorPlugin({
+          torusWalletOpts: {
+            buttonPosition: "bottom-left",
+          },
+          walletInitOptions: {
+            whiteLabel: {
+              theme: { isDark: true, colors: { primary: "#00a8ff" } },
+              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+            },
+            useWalletConnect: true,
+            enableLogging: true,
+          },
+        });
 
         // torusPlugin.initWithProvider(provider_from_wagmi, userInfo)
 
@@ -89,7 +88,7 @@ function App() {
         //   chainNetwork: 'mainnet',
         // })
 
-        // await web3auth.addPlugin(torusPlugin)
+        await web3auth.addPlugin(torusPlugin);
 
         if (web3auth.provider) {
           setProvider(web3auth.provider);
