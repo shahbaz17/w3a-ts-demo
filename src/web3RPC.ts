@@ -57,6 +57,34 @@ export default class EthereumRpc {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async signTransaction(): Promise<any> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const web3 = new Web3(this.provider as any);
+
+      // Get user's Ethereum public address
+      const fromAddress = (await web3.eth.getAccounts())[0];
+
+      const destination = fromAddress;
+
+      const amount = web3.utils.toWei("0.00001"); // Convert 1 ether to wei
+
+      // Submit transaction to the blockchain and wait for it to be mined
+      const receipt = await web3.eth.signTransaction({
+        from: fromAddress,
+        to: destination,
+        value: amount,
+        maxPriorityFeePerGas: "5000000000", // Max priority fee per gas
+        maxFeePerGas: "6000000000000", // Max fee per gas
+      });
+
+      return receipt;
+    } catch (error) {
+      return error as string;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async sendTransaction(): Promise<any> {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
