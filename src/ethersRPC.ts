@@ -55,15 +55,45 @@ export default class EthereumRpc {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async signTransaction(): Promise<any> {
+    try {
+      const ethersProvider = new ethers.providers.Web3Provider(this.provider);
+      const signer = ethersProvider.getSigner();
+
+      const destination = "0x809D4310d578649D8539e718030EE11e603Ee8f3";
+
+      // Convert 1 ether to wei
+      const amount = ethers.utils.parseEther("0.0001");
+
+      // Submit transaction to the blockchain
+      const tx = await signer.signTransaction({
+        to: destination,
+        value: amount,
+        maxPriorityFeePerGas: "5000000000", // Max priority fee per gas
+        maxFeePerGas: "6000000000000", // Max fee per gas
+      });
+      // eslint-disable-next-line no-console
+      console.log(tx);
+
+      // Wait for transaction to be mined
+      // const receipt = await tx;
+
+      return tx;
+    } catch (error) {
+      return error as string;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async sendTransaction(): Promise<any> {
     try {
       const ethersProvider = new ethers.providers.Web3Provider(this.provider);
       const signer = ethersProvider.getSigner();
 
-      const destination = "0x40e1c367Eca34250cAF1bc8330E9EddfD403fC56";
+      const destination = "0x809D4310d578649D8539e718030EE11e603Ee8f3";
 
       // Convert 1 ether to wei
-      const amount = ethers.utils.parseEther("0.001");
+      const amount = ethers.utils.parseEther("0.0001");
 
       // Submit transaction to the blockchain
       const tx = await signer.sendTransaction({

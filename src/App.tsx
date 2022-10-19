@@ -10,7 +10,6 @@ import * as tezosCrypto from "@tezos-core-tools/crypto-utils";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { SolanaPrivateKeyProvider, SolanaWallet } from "@web3auth/solana-provider";
-// import RPC from "./ethersRPC"; // for using ethers.js
 import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
 import { Web3Auth } from "@web3auth/web3auth";
 // import { ec as elliptic } from "elliptic";
@@ -20,6 +19,7 @@ import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 
 import RPC from "./web3RPC"; // for using web3.js
+// import RPC from "./ethersRPC"; // for using ethers.js
 
 const clientId = "BBP_6GOu3EJGGws9yd8wY_xFT0jZIWmiLMpqrEMx36jlM61K9XRnNLnnvEtGpF-RhXJDGMJjL-I-wTi13RcBBOo"; // get from https://dashboard.web3auth.io
 
@@ -350,6 +350,11 @@ function App() {
           </button>
         </div>
         <div>
+          <button onClick={signMessage} className="card">
+            Sign Message
+          </button>
+        </div>
+        <div>
           <button onClick={signTransaction} className="card">
             Sign Transaction
           </button>
@@ -357,11 +362,6 @@ function App() {
         <div>
           <button onClick={sendTransaction} className="card">
             Send Transaction
-          </button>
-        </div>
-        <div>
-          <button onClick={signMessage} className="card">
-            Sign Message
           </button>
         </div>
         <div>
