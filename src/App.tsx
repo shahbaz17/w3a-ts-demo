@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-console */
+/* eslint-disable simple-import-sort/imports */
 import "./App.css";
-
 // @ts-ignore
 import starboardCrypto from "@starkware-industries/starkware-crypto-utils";
 import { hex2buf } from "@taquito/utils";
@@ -11,7 +11,9 @@ import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { SolanaPrivateKeyProvider, SolanaWallet } from "@web3auth/solana-provider";
 import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
-import { Web3Auth } from "@web3auth/web3auth";
+import { Web3Auth } from "@web3auth/modal";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
 // import { ec as elliptic } from "elliptic";
 import { KeyPair } from "near-api-js";
 import { base_encode } from "near-api-js/lib/utils/serialize";
@@ -39,7 +41,52 @@ function App() {
             chainId: "0x5",
             rpcTarget: "https://rpc.ankr.com/eth_goerli",
           },
+          uiConfig: {
+            appLogo: "https://images.web3auth.io/web3auth-logo-w-light.svg",
+            theme: "dark",
+            loginMethodsOrder: ["twitter", "facebook", "google", "apple", "github"],
+            defaultLanguage: "en",
+          },
         });
+
+        const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: {
+            clientId, // Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
+            network: "testnet",
+            uxMode: "popup",
+            whiteLabel: {
+              name: "Formidable Duo",
+              logoLight: "https://images.web3auth.io/web3auth-logo-w-light.svg",
+              logoDark: "https://images.web3auth.io/web3auth-logo-w.svg",
+              defaultLanguage: "en",
+              dark: true, // whether to enable dark mode. defaultValue: false
+              theme: {
+                primary: "#d72f7a",
+              },
+            },
+          },
+        });
+        web3auth.configureAdapter(openloginAdapter);
+
+        const torusWalletAdapter = new TorusWalletAdapter({
+          initParams: {
+            // type WhiteLabelParams
+            whiteLabel: {
+              theme: {
+                isDark: true,
+                colors: { torusBrand1: "#229954" }, // #d72f7a, #FFA500, #0364FF, #229954
+              },
+              logoDark: "https://images.web3auth.io/web3auth-logo-w.svg",
+              logoLight: "https://images.web3auth.io/web3auth-logo-w-light.svg",
+              topupHide: true,
+              featuredBillboardHide: true,
+              disclaimerHide: true,
+              defaultLanguage: "es",
+            },
+          },
+        });
+
+        web3auth.configureAdapter(torusWalletAdapter);
 
         const torusPlugin = new TorusWalletConnectorPlugin({
           torusWalletOpts: {
@@ -47,9 +94,10 @@ function App() {
           },
           walletInitOptions: {
             whiteLabel: {
-              theme: { isDark: true, colors: { primary: "#00a8ff" } },
-              logoDark: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
-              logoLight: "https://web3auth.io/images/w3a-D-Favicon-1.svg",
+              theme: { isDark: true, colors: { torusBrand1: "#EADDCA" } },
+              defaultLanguage: "de",
+              logoDark: "https://images.web3auth.io/web3auth-logo-w.svg",
+              logoLight: "https://images.web3auth.io/web3auth-logo-w.svg",
             },
             useWalletConnect: true,
             enableLogging: true,
