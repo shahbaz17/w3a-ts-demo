@@ -81,7 +81,7 @@ function App() {
               topupHide: true,
               featuredBillboardHide: true,
               disclaimerHide: true,
-              defaultLanguage: "es",
+              defaultLanguage: "en",
             },
           },
         });
@@ -94,8 +94,8 @@ function App() {
           },
           walletInitOptions: {
             whiteLabel: {
-              theme: { isDark: true, colors: { torusBrand1: "#EADDCA" } },
-              defaultLanguage: "de",
+              theme: { isDark: true, colors: { torusBrand1: "#d4e157" } },
+              defaultLanguage: "en",
               logoDark: "https://images.web3auth.io/web3auth-logo-w.svg",
               logoLight: "https://images.web3auth.io/web3auth-logo-w.svg",
             },
@@ -201,7 +201,7 @@ function App() {
       config: {
         chainConfig: {
           chainId: "0x3",
-          rpcTarget: "https://ssc-dao.genesysgo.net",
+          rpcTarget: "https://rpc.ankr.com/solana_devnet",
           displayName: "Solana Mainnet",
           blockExplorer: "https://explorer.solana.com/",
           ticker: "SOL",
