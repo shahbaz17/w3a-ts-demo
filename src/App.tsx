@@ -44,7 +44,7 @@ function App() {
           uiConfig: {
             appLogo: "https://images.web3auth.io/web3auth-logo-w-light.svg",
             theme: "dark",
-            loginMethodsOrder: ["twitter", "facebook", "google", "apple", "github"],
+            loginMethodsOrder: ["google", "github", "twitter", "apple", "facebook"],
             defaultLanguage: "en",
           },
         });
