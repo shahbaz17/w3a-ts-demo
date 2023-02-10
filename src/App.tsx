@@ -47,13 +47,11 @@ function App() {
             loginMethodsOrder: ["google", "github", "twitter", "apple", "facebook"],
             defaultLanguage: "en",
           },
+          web3AuthNetwork: "testnet",
         });
 
         const openloginAdapter = new OpenloginAdapter({
           adapterSettings: {
-            clientId, // Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
-            network: "testnet",
-            uxMode: "popup",
             whiteLabel: {
               name: "Formidable Duo",
               logoLight: "https://images.web3auth.io/web3auth-logo-w-light.svg",
